@@ -13,8 +13,8 @@ iac = input("Install/Uninstall A-CLEAN i/u/n = ")
 if iac == "n":
     cmd = os.system("exit")
 elif iac == "i":
-    cmd1 = os.system("pacman -S pacman-contrib rmlint ncdu")
-    cmd2 = os.system("chmod +x a-clean.py | cp a-clean.py /usr/local/bin/a-clean")
-    print("\nA-CLEAN sudah terinstall, gunakan root untuk menjalankan a-clean")
+    cmd1 = os.system("pacman -S vim pacman-contrib rmlint")
+    cmd2 = os.system("chmod +x a-clean.py | cp a-clean.py ~/.local/bin/a-clean")
+    print("\nA-CLEAN sudah terinstall")
 elif iac == "u":
-    cmd = os.system("rm /usr/local/bin/a-clean")
+    cmd = os.system("rm ~/.local/bin/a-clean")

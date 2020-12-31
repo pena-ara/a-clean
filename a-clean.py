@@ -1,55 +1,109 @@
 #!/usr/bin/env python
 
-import os
+from os import system
+from os import chdir
+from os import popen
+#from getpass import getpass
 
-while True:
-    print('''
- █████╗        ██████╗██╗     ███████╗ █████╗ ███╗   ██╗
-██╔══██╗      ██╔════╝██║     ██╔════╝██╔══██╗████╗  ██║
-███████║█████╗██║     ██║     █████╗  ███████║██╔██╗ ██║
-██╔══██║╚════╝██║     ██║     ██╔══╝  ██╔══██║██║╚██╗██║
-██║  ██║      ╚██████╗███████╗███████╗██║  ██║██║ ╚████║
-╚═╝  ╚═╝       ╚═════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ By Nestero
-A-CLEAN adalah tool sederhana untuk membersihkan sistem Arch Linux
-    ''')
-    print("===== Menu =====")
-    print(" (1)  Bersihkan Cache Manual")
-    print(" (2)  Bersihkan Cache Otomatis ")
-    print(" (3)  Daftar Bekas Paket App yang Sudah diUninstall")
-    print(" (4)  Hapus Bekas Paket App yang Sudah diUninstall")
-    print(" (5)  Bersihkan Cache Home Directory")
-    print(" (6)  Daftar Duplikat, File Kosong, Folder Kosong, Symlink Rusak")
-    print(" (7)  Hapus Daftar Duplikat, File Kosong, Folder Kosong, Symlink Rusak")
-    print(" (8)  Cek File dan Folder Berukuran Besar # tekan 'q' untuk kembali kemenu A-CLEAN")
-    print(" (9)  Hapus yang Ada di Tong Sampah")
-    print(" (00) Update System")
-    print(" (0)  Keluar \n")
-    ac = input("Pilih Opsi = ")
+#folder = popen("ls").read().strip().split("\n")
+system("mkdir a-clean")
+chdir("a-clean")
+#u = popen("whoami").read()
+l = '''
+  █████╗        ██████╗██╗     ███████╗ █████╗ ███╗   ██╗
+ ██╔══██╗      ██╔════╝██║     ██╔════╝██╔══██╗████╗  ██║
+ ███████║█████╗██║     ██║     █████╗  ███████║██╔██╗ ██║
+ ██╔══██║╚════╝██║     ██║     ██╔══╝  ██╔══██║██║╚██╗██║
+ ██║  ██║      ╚██████╗███████╗███████╗██║  ██║██║ ╚████║
+ ╚═╝  ╚═╝       ╚═════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ By Nestero
+ A-CLEAN adalah tool sederhana untuk memebersihkan cacahe dan sampah di Arch Linux
+'''
 
-    if ac == "0":
-        break
-    elif ac == "1":
-        cmd = os.system("pacman -Scc")
-    elif ac == "2":
-        cmd1 = os.system("paccache -d")
-        cmd2 = os.system("paccache -r")
-    elif ac == "3":
-        print("Daftar Sisa Paket : ")
-        cmd = os.system("pacman -Qtdq")
-    elif ac == "4":
-        cmd = os.system("pacman -Rns $(pacman -Qtdq)")
-    elif ac == "5":
-        cmd1 = os.system("du -sh ~/.cache/")
-        cmd2 = os.system("rm -rf ~/.cache/*")
-    elif ac == "6":
-        cmd = os.system("rmlint /home/$user")
-    elif ac == "7":
-        cmd1 = os.system("rmlint /home/$user")
-        cmd2 = os.system("sh -c ~/rmlint.sh")
-    elif ac == "8":
-        cmd = os.system("ncdu")
-    elif ac == "9":
-        cmd = os.system("rm -rf ~/.local/share/Trash/*")
-    elif ac == "00":
-        cmd = os.system("pacman -Syyu")
-   
+def menu():
+    while True:
+        system("clear")
+        print(l)
+        print("======= Menu =======")
+        print(" [1] Cache")
+        print(" [2] Paket Usang")
+        print(" [3] Duplikat, File Kosong, Folder Kosong, Symlink Rusak")
+        print(" [4] Tong Sampah")
+        print(" [5] Update System")
+        print(" [0] Keluar")
+        print("====================")
+        
+        m = input("a-clean > ")
+        system("clear")
+        
+        while m == "1":
+            print(l)
+            print(" [1] Bersihkan Cache Secara Manual")
+            print(" [2] Bersihkan Cache Secara Otomatis")
+            print(" [3] Bersihkan Cache Home Directory")
+            print(" [0] Kembali")
+            mc = input("a-cache > ")
+            if mc == "1":
+               cmd = system(f"sudo pacman -Scc")
+            elif mc == "2":
+               cmd = system("paccache -d")
+               cmd2 = system("paccache -r")
+            elif mc == "3":
+               cmd = system("du -sh ~/.cache")
+               cmd2 = system("rm -rf ~/.cache/*")
+            elif mc == "0":
+               menu()
+            else:
+               print("Tak ada dalam menu.....")
+
+        while m == "2":
+            print(l)
+            print(" [1] Daftar Paket Usang")
+            print(" [2] Unisntall Paket Usang")
+            print(" [0] Kembali")
+            mpu = input("a-paket-usang > ")
+            if mpu == "1":
+                print("Daftar Paket Usang :\n")
+                cmd = system("pacman -Qtdq")
+            elif mpu == "2":
+                mpua = input("Yakin ingin menghapus paket usang (y/n) ? ")
+                if mpua == "y":
+                    cmd = system("sudo pacman -Rsucn $(pacman -Qtdq)")
+                else:
+                    menu()
+            elif mpu == "0":
+                menu()
+            else:
+                print("Tidak ada dalam menu.....")
+
+        while m == "3":
+            print(l)
+            print(" [1] Daftar Duplikat, File / Folder Kosong, Symlink Rusak")
+            print(" [2] Hapus Duplikat, File / Folder Kosong, Symlink Rusak")
+            print(" [0] Kembali")
+            mdfr = input("a-rusak > ")
+            if mdfr == "1":
+               cmd = system("rmlint /home/$user")
+               cmd2 = system("vim rmlint.json")
+            elif mdfr == "2":
+                cmd = system("sh -c rmlint.sh")
+            elif mdfr == "0":
+                menu()
+            else:
+                print("Tidak ada dalam menu.....")
+
+        while m == "4":
+            cmd = system("rm -rf ~/.local/share/Trash/*")
+            menu()
+
+        while m == "5":
+            cmd = system("sudo pacman -Syyu")
+            menu()
+
+        if m == "0":
+            chdir("..")
+            system("rm -rf a-clean")
+            exit()
+        else:
+            print("Tidak ada dalam menu.....")
+
+menu()
