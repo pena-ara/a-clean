@@ -16,7 +16,6 @@ l = '''
  ██╔══██║╚════╝██║     ██║     ██╔══╝  ██╔══██║██║╚██╗██║
  ██║  ██║      ╚██████╗███████╗███████╗██║  ██║██║ ╚████║
  ╚═╝  ╚═╝       ╚═════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ By Nestero
- A-CLEAN adalah tool sederhana untuk memebersihkan cacahe dan sampah di Arch Linux
 '''
 
 def menu():
@@ -40,6 +39,7 @@ def menu():
             print(" [1] Bersihkan Cache Secara Manual")
             print(" [2] Bersihkan Cache Secara Otomatis")
             print(" [3] Bersihkan Cache Home Directory")
+            print(" [4] Bersihkan Cache Home qb")
             print(" [0] Kembali")
             mc = input("a-cache > ")
             if mc == "1":
@@ -50,6 +50,8 @@ def menu():
             elif mc == "3":
                cmd = system("du -sh ~/.cache")
                cmd2 = system("rm -rf ~/.cache/*")
+            elif mc == "4":
+               cmd = system("rm -rf ~/.local/share/qutebrowser/webengine")
             elif mc == "0":
                menu()
             else:
